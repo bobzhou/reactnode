@@ -4,16 +4,17 @@ import ReactRouter from 'react-router'
 import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
 // import all the components 
-var App = require('./components/App');
-var Error404 = require('./components/Error404');
-// var Audience = require('./components/Audience');
+import App from './components/App'
+import Error404 from './components/Error404'
+import Lobby from './components/Lobby'
 // var Speaker = require('./components/Speaker');
 // var Board = require('./components/Board');
 
 var routes = (
 	<Route path="/" component={App}>
-		<IndexRoute component={App}></IndexRoute>
-		<Route path="*" component={Error404}></Route>
+		<IndexRoute component={Lobby} />
+		<Route path="/r/:roomId" component={Lobby}/>
+		<Route path="*" component={Error404}/ >
 	</Route>
 );
 
