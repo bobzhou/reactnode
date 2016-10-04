@@ -1,6 +1,5 @@
 import React from 'react'
 import io from 'socket.io-client'
-import Members from './Members'
 import Rooms from './Rooms'
 
 class App extends React.Component {
@@ -10,7 +9,10 @@ class App extends React.Component {
 		this.state = {
 			status: 'disconnected',
 			members: [],
-			rooms: []
+			rooms: [],
+			room: {
+				members: []
+			}
 		}
 
 		this.componentWillMount = this.componentWillMount.bind(this);
@@ -18,13 +20,15 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-		this.socket = io('http://localhost:8000');
+		this.socket = io('http://'+location.hostname+':8000');
 
 		this.socket.on('connect', () => this.setState({'status' : 'connected'}));
 
 		this.socket.on('disconnect', () => this.setState({'status' : 'disconnected'}));
 
 		this.socket.on('updateState', x => this.setState(x));
+
+		this.socket.on('updateRoom', x => this.setState(x));
 	}
 
 	emit(eventName, payload) {
@@ -36,7 +40,6 @@ class App extends React.Component {
 			<div className="fill">
 				<Rooms emit={this.emit} {...this.state} />
 				{React.cloneElement(this.props.children, {emit: this.emit, ...this.state})}
-				<Members emit={this.emit} members={this.state.members}/> 
 			</div>
 		);
 	}

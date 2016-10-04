@@ -2,6 +2,10 @@ import React from 'react'
 import Display from './parts/Display'
 
 class Members extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
 	renderMember(member) {
 		return (
 			<div>
